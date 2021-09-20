@@ -1,25 +1,23 @@
-import logo from './logo.svg';
+import React, { useState , useEffect } from 'react' ;
 import './App.css';
+import axios from './axios' ;
+
 
 function App() {
+  const [ data , setData ] = useState({}) ;
+  const [ loading , setLoading ] = useState(true) ;
+  useEffect(() => {
+    axios.get("/api")
+      .then(({ data }) => setData(data))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false))
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h2>{ loading ? "loading..." : "Done => "}</h2>
+      <h1>{ JSON.stringify(data)}</h1>
     </div>
   );
-}
+} ;
 
 export default App;
